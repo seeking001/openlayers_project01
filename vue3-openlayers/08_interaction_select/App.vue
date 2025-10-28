@@ -17,17 +17,11 @@ import GeoJSON from "ol/format/GeoJSON";
 import Style from "ol/style/Style";
 import Fill from "ol/style/Fill";
 import Stroke from "ol/style/Stroke";
-<<<<<<< HEAD
-import Draw from "ol/interaction/Draw";
-import { Circle } from "ol/geom";
-import Modify from "ol/interaction/Modify"
-=======
 import Draw, { createBox, createRegularPolygon } from 'ol/interaction/Draw';
 import Circlestyle from "ol/style/Circle";
 import Modify from "ol/interaction/Modify";
 // 引入组件
 import SelectArea from "./components/SelectArea.vue";
->>>>>>> fc4e59093f2c1395985be102139742ad754bbdd2
 
 // 通过ref定义地图和图层变量
 const map = ref(null)
