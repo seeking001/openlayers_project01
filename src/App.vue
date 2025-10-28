@@ -17,7 +17,7 @@ import Fill from "ol/style/Fill";
 import Stroke from "ol/style/Stroke";
 import Draw from "ol/interaction/Draw";
 import { Circle } from "ol/geom";
-import Modify from "ol/interaction"
+import Modify from "ol/interaction/Modify"
 
 // 通过ref定义地图和图层变量
 const map = ref(null)
@@ -135,7 +135,7 @@ onMounted(() => {
   map.value.addInteraction(vectorDraw)
 
   // 创建图形修改（拖动端点修改）
-  const vectorModify = Modify({
+  const vectorModify = new Modify({
     source
   })
   map.value.addInteraction(vectorModify)
