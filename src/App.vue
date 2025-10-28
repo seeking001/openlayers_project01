@@ -17,24 +17,18 @@ import GeoJSON from "ol/format/GeoJSON";
 import Style from "ol/style/Style";
 import Fill from "ol/style/Fill";
 import Stroke from "ol/style/Stroke";
-<<<<<<< HEAD
-import Draw from "ol/interaction/Draw";
-import { Circle } from "ol/geom";
-import Modify from "ol/interaction/Modify"
-=======
 import Draw, { createBox, createRegularPolygon } from 'ol/interaction/Draw';
 import Circlestyle from "ol/style/Circle";
 import Modify from "ol/interaction/Modify";
+import Select from 'ol/interaction/Select';
 // 引入组件
 import SelectArea from "./components/SelectArea.vue";
->>>>>>> fc4e59093f2c1395985be102139742ad754bbdd2
 
 // 通过ref定义地图和图层变量
 const map = ref(null)
 const layers = ref({
   generalLayer: null,
-  generalMarkLayer: null,
-  vectorLayer: null
+  generalMarkLayer: null
 })
 
 //  初始化地图————使用onMounted生命周期钩子确保DOM已加载
@@ -54,28 +48,11 @@ onMounted(() => {
       wrapX: false
     })
   })
-  // 3. 矢量图层
-  layers.vectorLayer = new VectorLayer({
-    source: new Vector({
-      url: 'https://geo.datav.aliyun.com/areas_v3/bound/100000_full.json',
-      format: new GeoJSON()
-    }),
-    // 设置矢量图层样式
-    style: new Style({
-      fill: new Fill({
-        color: 'rgba(0, 0, 0, 0.1)'
-      }),
-      stroke: new Stroke({
-        color: 'rgba(0, 255, 0, 0.8)',
-        width: 1
-      })
-    })
-  })
 
   // 二、创建地图实例
   map.value = new Map({
     target: 'map',
-    layers: [layers.generalLayer, layers.generalMarkLayer, layers.vectorLayer],
+    layers: [layers.generalLayer, layers.generalMarkLayer],
     view: new View({
       center: [104, 36],
       projection: "EPSG:4326",
@@ -84,71 +61,42 @@ onMounted(() => {
     })
   })
 
-  // 三、创建绘制功能
-  // 1. 创建矢量图源
-  const source = new Vector()
-  // 2. 创建矢量图层
+  // 三、添加矢量图层
+  // 1. 创建图层实例
   const vectorLayer = new VectorLayer({
-    source,
-    // 定义绘制后的图上显示样式
+    source: new Vector({
+      url: 'https://geo.datav.aliyun.com/areas_v3/bound/100000_full.json',
+      format: new GeoJSON()
+    }),
     style: new Style({
       fill: new Fill({
-        color: 'rgba(0, 0, 0, 0.1)',
+        color: 'rgba(0, 255, 255, 0.1)',
       }),
       stroke: new Stroke({
-        color: 'rgba(0, 0, 255, 0.8)',
-        width: 1,
-        lineDash: [6, 3]  //虚线样式，第一个数字是虚线段长度，第二个数字是虚线间隔长度
+        color: 'rgba(0, 255, 255, 0.5)',
+        width: 1
       })
     })
   })
-  // 3. 添加矢量图层
+  // 向地图添加矢量图层
   map.value.addLayer(vectorLayer)
 
-  // 创建绘图交互
-  const vectorDraw = new Draw({
-    source,
-
-    // 定义绘制几何形状有多种组合形式：
-    // 形式一：绘制多边形
-    type: 'Polygon',
-    // 形式二：绘制圆形
-    // type: 'Circle',
-    // 形式三：绘制长方形
-    // type: 'Circle',
-    // geometryFunction: createBox(),
-    // 形式四：绘制正多边形
-    // type: 'Circle',
-    // geometryFunction: createRegularPolygon(6),
-
-    // 定义绘制过程中的样式
+  // 2. 添加select交互
+  const select = new Select({
     style: new Style({
       fill: new Fill({
-        color: 'rgba(255, 0, 0, 0.1)'
+        color: 'rgba(255, 0, 0, 0.2)'
       }),
       stroke: new Stroke({
-        color: 'rgba(255, 0, 0, 0.8)',
-        width: 1,
-        lineDash: [6, 3]
-      }),
-      // 鼠标点上的图形样式
-      image: new Circlestyle({
-        radius: 3,
-        fill: new Fill({
-          color: 'rgba(255, 0, 0, 0.5)'
-        })
+        color: 'rgba(255, 0, 0, 0.6)',
+        width: 2
       })
     })
   })
+  // 向地图添加select交互
+  map.value.addInteraction(select)
 
-  // 添加绘图交互
-  map.value.addInteraction(vectorDraw)
-
-  // 创建图形修改（拖动端点修改）
-  const vectorModify = new Modify({
-    source
-  })
-  map.value.addInteraction(vectorModify)
+  // 3. 添加监听选择事件
 })
 </script>
 
