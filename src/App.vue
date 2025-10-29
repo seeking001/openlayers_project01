@@ -20,6 +20,10 @@ import Stroke from "ol/style/Stroke";
 import Draw, { createBox, createRegularPolygon } from 'ol/interaction/Draw';
 import Circlestyle from "ol/style/Circle";
 import Modify from "ol/interaction/Modify";
+<<<<<<< HEAD
+=======
+import Select from 'ol/interaction/Select';
+>>>>>>> 85b8789a22416c6e4b7133d85bd704f3d5d146cb
 // 引入组件
 import SelectArea from "./components/SelectArea.vue";
 
@@ -27,8 +31,7 @@ import SelectArea from "./components/SelectArea.vue";
 const map = ref(null)
 const layers = ref({
   generalLayer: null,
-  generalMarkLayer: null,
-  vectorLayer: null
+  generalMarkLayer: null
 })
 
 //  初始化地图————使用onMounted生命周期钩子确保DOM已加载
@@ -48,28 +51,11 @@ onMounted(() => {
       wrapX: false
     })
   })
-  // 3. 矢量图层
-  layers.vectorLayer = new VectorLayer({
-    source: new Vector({
-      url: 'https://geo.datav.aliyun.com/areas_v3/bound/100000_full.json',
-      format: new GeoJSON()
-    }),
-    // 设置矢量图层样式
-    style: new Style({
-      fill: new Fill({
-        color: 'rgba(0, 0, 0, 0.1)'
-      }),
-      stroke: new Stroke({
-        color: 'rgba(0, 255, 0, 0.8)',
-        width: 1
-      })
-    })
-  })
 
   // 二、创建地图实例
   map.value = new Map({
     target: 'map',
-    layers: [layers.generalLayer, layers.generalMarkLayer, layers.vectorLayer],
+    layers: [layers.generalLayer, layers.generalMarkLayer],
     view: new View({
       center: [104, 36],
       projection: "EPSG:4326",
@@ -78,24 +64,24 @@ onMounted(() => {
     })
   })
 
-  // 三、创建绘制功能
-  // 1. 创建矢量图源
-  const source = new Vector()
-  // 2. 创建矢量图层
+  // 三、添加矢量图层
+  // 1. 创建图层实例
   const vectorLayer = new VectorLayer({
-    source,
-    // 定义绘制后的图上显示样式
+    source: new Vector({
+      url: 'https://geo.datav.aliyun.com/areas_v3/bound/100000_full.json',
+      format: new GeoJSON()
+    }),
     style: new Style({
       fill: new Fill({
-        color: 'rgba(0, 0, 0, 0.1)',
+        color: 'rgba(0, 255, 255, 0.1)',
       }),
       stroke: new Stroke({
-        color: 'rgba(0, 0, 255, 0.8)',
-        width: 1,
-        lineDash: [6, 3]  //虚线样式，第一个数字是虚线段长度，第二个数字是虚线间隔长度
+        color: 'rgba(0, 255, 255, 0.5)',
+        width: 1
       })
     })
   })
+<<<<<<< HEAD
   // 3. 添加矢量图层
   map.value.addLayer(vectorLayer)
 
@@ -116,11 +102,19 @@ onMounted(() => {
     // geometryFunction: createRegularPolygon(6),
 
     // 定义绘制过程中的样式
+=======
+  // 向地图添加矢量图层
+  map.value.addLayer(vectorLayer)
+
+  // 2. 添加select交互
+  const select = new Select({
+>>>>>>> 85b8789a22416c6e4b7133d85bd704f3d5d146cb
     style: new Style({
       fill: new Fill({
-        color: 'rgba(255, 0, 0, 0.1)'
+        color: 'rgba(255, 0, 0, 0.2)'
       }),
       stroke: new Stroke({
+<<<<<<< HEAD
         color: 'rgba(255, 0, 0, 0.8)',
         width: 1,
         lineDash: [6, 3]
@@ -131,10 +125,17 @@ onMounted(() => {
         fill: new Fill({
           color: 'rgba(255, 0, 0, 0.5)'
         })
+=======
+        color: 'rgba(255, 0, 0, 0.6)',
+        width: 2
+>>>>>>> 85b8789a22416c6e4b7133d85bd704f3d5d146cb
       })
     })
   })
+  // 向地图添加select交互
+  map.value.addInteraction(select)
 
+<<<<<<< HEAD
   // 添加绘图交互
   map.value.addInteraction(vectorDraw)
 
@@ -143,6 +144,9 @@ onMounted(() => {
     source
   })
   map.value.addInteraction(vectorModify)
+=======
+  // 3. 添加监听选择事件
+>>>>>>> 85b8789a22416c6e4b7133d85bd704f3d5d146cb
 })
 </script>
 
