@@ -20,10 +20,7 @@ import Stroke from "ol/style/Stroke";
 import Draw, { createBox, createRegularPolygon } from 'ol/interaction/Draw';
 import Circlestyle from "ol/style/Circle";
 import Modify from "ol/interaction/Modify";
-<<<<<<< HEAD
-=======
 import Select from 'ol/interaction/Select';
->>>>>>> 85b8789a22416c6e4b7133d85bd704f3d5d146cb
 // 引入组件
 import SelectArea from "./components/SelectArea.vue";
 
@@ -81,72 +78,25 @@ onMounted(() => {
       })
     })
   })
-<<<<<<< HEAD
-  // 3. 添加矢量图层
-  map.value.addLayer(vectorLayer)
-
-  // 创建绘图交互
-  const vectorDraw = new Draw({
-    source,
-
-    // 定义绘制几何形状有多种组合形式：
-    // 形式一：绘制多边形
-    type: 'Polygon',
-    // 形式二：绘制圆形
-    // type: 'Circle',
-    // 形式三：绘制长方形
-    // type: 'Circle',
-    // geometryFunction: createBox(),
-    // 形式四：绘制正多边形
-    // type: 'Circle',
-    // geometryFunction: createRegularPolygon(6),
-
-    // 定义绘制过程中的样式
-=======
   // 向地图添加矢量图层
   map.value.addLayer(vectorLayer)
 
   // 2. 添加select交互
   const select = new Select({
->>>>>>> 85b8789a22416c6e4b7133d85bd704f3d5d146cb
     style: new Style({
       fill: new Fill({
         color: 'rgba(255, 0, 0, 0.2)'
       }),
       stroke: new Stroke({
-<<<<<<< HEAD
-        color: 'rgba(255, 0, 0, 0.8)',
-        width: 1,
-        lineDash: [6, 3]
-      }),
-      // 鼠标点上的图形样式
-      image: new Circlestyle({
-        radius: 3,
-        fill: new Fill({
-          color: 'rgba(255, 0, 0, 0.5)'
-        })
-=======
         color: 'rgba(255, 0, 0, 0.6)',
         width: 2
->>>>>>> 85b8789a22416c6e4b7133d85bd704f3d5d146cb
       })
     })
   })
   // 向地图添加select交互
   map.value.addInteraction(select)
 
-<<<<<<< HEAD
-  // 添加绘图交互
-  map.value.addInteraction(vectorDraw)
-
-  // 创建图形修改（拖动端点修改）
-  const vectorModify = new Modify({
-    source
-  })
-  map.value.addInteraction(vectorModify)
-=======
   // 3. 添加监听选择事件
->>>>>>> 85b8789a22416c6e4b7133d85bd704f3d5d146cb
 })
 </script>
 
