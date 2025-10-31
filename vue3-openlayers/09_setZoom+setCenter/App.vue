@@ -1,7 +1,7 @@
 <template>
   <!-- 创建地图容器 -->
   <div id="map"></div>
-  <SelectArea :selectedName="selectedName"/>
+  <SetBtn @setZoom="handleSetZoom" @setCenter="handleSetCenter"/>
 </template>
 
 <script setup>
@@ -11,15 +11,8 @@ import Map from "ol/Map";
 import TileLayer from "ol/layer/Tile";
 import XYZ from "ol/source/XYZ";
 import View from "ol/View";
-import VectorLayer from "ol/layer/Vector";
-import { Vector } from "ol/source";
-import GeoJSON from "ol/format/GeoJSON";
-import Style from "ol/style/Style";
-import Fill from "ol/style/Fill";
-import Stroke from "ol/style/Stroke";
-import Select from 'ol/interaction/Select';
 // 引入组件
-import SelectArea from "./components/SelectArea.vue";
+import SetBtn from "./components/SetBtn.vue";
 
 // 通过ref定义地图、图层和选择变量
 const map = ref(null)
@@ -27,8 +20,6 @@ const layers = ref({
   generalLayer: null,
   generalMarkLayer: null
 })
-const select = ref(null)
-const selectedName = ref('未选择')
 
 //  初始化地图————使用onMounted生命周期钩子确保DOM已加载
 onMounted(() => {
@@ -59,51 +50,19 @@ onMounted(() => {
       extent: [-180, -85, 180, 85]
     })
   })
-
-  // 三、添加矢量图层
-  // 1. 创建图层实例
-  const vectorLayer = new VectorLayer({
-    source: new Vector({
-      url: 'https://geo.datav.aliyun.com/areas_v3/bound/100000_full.json',
-      format: new GeoJSON()
-    }),
-    style: new Style({
-      fill: new Fill({
-        color: 'rgba(0, 255, 255, 0.1)',
-      }),
-      stroke: new Stroke({
-        color: 'rgba(0, 255, 255, 0.5)',
-        width: 1
-      })
-    })
-  })
-  // 向地图添加矢量图层
-  map.value.addLayer(vectorLayer)
-
-  // 2. 添加select交互
-  select.value = new Select({
-    style: new Style({
-      fill: new Fill({
-        color: 'rgba(255, 0, 0, 0.2)'
-      }),
-      stroke: new Stroke({
-        color: 'rgba(255, 0, 0, 0.5)',
-        width: 2
-      })
-    })
-  })
-  // 向地图添加select交互
-  map.value.addInteraction(select.value)
-
-  // 3. 添加监听选择事件
-  select.value.on('select', function(e){
-    if(e.selected.length > 0){
-      selectedName.value = e.selected[0].get('name') || '未知区域'
-    } else {
-      selectedName.value = '未选择'
-    }
-  })
 })
+
+  // 三、设置视图和中心点（要设置在onmounted外面）
+  // 1. 设置视图
+  // 获取设置视图按钮
+  const handleSetZoom = () => {
+    map.value.getView().setZoom(12)
+  }
+
+  // 2. 设置中心点
+  const handleSetCenter = () => {
+    map.value.getView().setCenter([114.30, 30.60])
+  }
 </script>
 
 <style scoped>
